@@ -103,6 +103,31 @@ const SVGAvatars = {
     <path d="M 30,80 L 25,95 M 70,80 L 75,95 M 50,75 L 50,95" stroke="#1d2613" stroke-width="4" />
   </svg>`,
 
+  // PUBG Soldier with Level 3 Helmet and Tie
+  pubg_soldier: `<svg viewBox="0 0 100 100" width="100%" height="100%">
+    <!-- White Shirt & Tie -->
+    <path d="M 30,80 L 70,80 L 80,95 L 20,95 Z" fill="#ffffff" />
+    <path d="M 45,80 L 50,95 L 55,80 Z" fill="#e74c3c" />
+    <path d="M 40,80 L 45,95 L 47,80 Z" fill="#333333" />
+    <!-- Black Body Vest -->
+    <path d="M 25,85 L 75,85 L 72,95 L 28,95 Z" fill="#2c3e50" />
+    <!-- Neck -->
+    <rect x="42" y="70" width="16" height="12" fill="#d48259" />
+    <!-- Level 3 Helmet -->
+    <circle cx="50" cy="45" r="26" fill="#4f5b66" />
+    <!-- Helmet Visor plate -->
+    <rect x="26" y="38" width="48" height="24" fill="#232b35" rx="3" />
+    <!-- Visor Slit -->
+    <rect x="32" y="44" width="36" height="5" fill="#0f1115" rx="1.5" />
+    <!-- Grid details on mouth shield -->
+    <line x1="42" y1="52" x2="42" y2="58" stroke="#0f1115" stroke-width="2" />
+    <line x1="50" y1="52" x2="50" y2="58" stroke="#0f1115" stroke-width="2" />
+    <line x1="58" y1="52" x2="58" y2="58" stroke="#0f1115" stroke-width="2" />
+    <!-- Metal bolts/details -->
+    <circle cx="28" cy="50" r="2" fill="#ffd700" />
+    <circle cx="72" cy="50" r="2" fill="#ffd700" />
+  </svg>`,
+
   // Minecraft Creeper (Enemy)
   creeper: `<svg viewBox="0 0 100 100" width="100%" height="100%">
     <rect x="15" y="15" width="70" height="70" fill="#00ff3c" />
@@ -181,9 +206,10 @@ const SkinsDB = [
   { id: 'steve', name: 'Steve', rarity: 'common', theme: 'minecraft', cost: 0, preview: SVGAvatars.steve },
   { id: 'steve_diamond', name: 'Elmas Steve', rarity: 'epic', theme: 'minecraft', cost: 200, preview: SVGAvatars.steve_diamond },
   
-  // Fortnite Skins
+  // Fortnite & PUBG Skins
   { id: 'peely', name: 'Peely', rarity: 'common', theme: 'fortnite', cost: 0, preview: SVGAvatars.peely },
-  { id: 'ghillie', name: 'Ghillie Askeri', rarity: 'rare', theme: 'fortnite', cost: 120, preview: SVGAvatars.ghillie }
+  { id: 'ghillie', name: 'Ghillie Askeri (PUBG)', rarity: 'rare', theme: 'fortnite', cost: 120, preview: SVGAvatars.ghillie },
+  { id: 'pubg_soldier', name: 'PUBG Savaşçısı (Kasklı)', rarity: 'epic', theme: 'fortnite', cost: 250, preview: SVGAvatars.pubg_soldier }
 ];
 
 const Game = {
