@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Math Arena: Battle Royale - Çarpım Tablosu Oyunu</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Çocuklar için Brawl Stars, Minecraft ve Fortnite temalı çarpım tablosu öğrenme oyunu.">
+  <meta name="keywords" content="çarpım tablosu, matematik oyunu, brawl stars, minecraft, fortnite, pubg, eğitici oyun">
+</head>
+<body class="theme-brawlstars">
+  <div id="app">
+    <!-- Header HUD -->
+    <header class="header-bar">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="level-badge" id="lbl-level">1</div>
+        <div class="trophy-badge">
+          🏆 <span id="lbl-trophies">0</span>
+        </div>
+      </div>
+      
+      <!-- Currency Wallet -->
+      <div class="currency-container" id="currency-container">
+        <!-- Will be dynamically updated by app.js -->
+      </div>
+    </header>
+
+    <!-- --- SCREEN 1: Home / Start Screen --- -->
+    <div class="screen active home-screen" id="home-screen">
+      <div class="game-title-container">
+        <h1 class="game-title game-font">MATH ARENA</h1>
+        <div class="game-subtitle game-font" id="game-subtitle-label">BATTLE ROYALE</div>
+      </div>
+
+      <!-- Character Preview Card -->
+      <div class="character-preview-card panel-glass">
+        <div class="character-svg-wrapper" id="home-char-svg">
+          <!-- Steve or Shelly will go here -->
+        </div>
+        <div class="character-name game-font" id="home-char-name">Steve</div>
+      </div>
+
+      <!-- Home Action Buttons -->
+      <div class="home-menu-buttons">
+        <button class="btn-action game-font" onclick="Game.startMatch('boss')">👹 BOS SAVAŞI</button>
+        <button class="btn-action game-font" onclick="Game.startMatch('survival')" style="background: linear-gradient(180deg, #ff00c8 0%, #a200ff 100%); border-color: #3b0063; box-shadow: 0 6px 0 #57008f;">🔥 HAYATTA KALMA</button>
+        
+        <div class="row-buttons">
+          <button class="btn-action game-font" onclick="Game.showScreen('shop')" style="font-size: 14px; background: linear-gradient(180deg, #00f0ff 0%, #0072ff 100%); border-color: #002c63; box-shadow: 0 6px 0 #004ba3;">🛒 MAĞAZA</button>
+          <button class="btn-action game-font" onclick="Game.triggerChestOpening()" style="font-size: 14px; background: linear-gradient(180deg, #ff9000 0%, #ff4000 100%); border-color: #5c1800; box-shadow: 0 6px 0 #802000;">🎁 KUTU AÇ</button>
+          <button class="btn-action game-font" onclick="document.getElementById('parent-modal').classList.add('active'); Game.renderParentPanel();" style="font-size: 14px; background: #6c757d; border-color: #212529; box-shadow: 0 6px 0 #343a40;">⚙️ VELİ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- --- SCREEN 2: Battle Arena --- -->
+    <div class="screen battle-screen" id="battle-screen">
+      <!-- HUD Stats -->
+      <div class="battle-header">
+        <div class="hud-bar">
+          <div class="hud-label">
+            <span>OYUNCU CANI</span>
+            <span>%100</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill hp-bar" id="player-hp-fill"></div>
+          </div>
+        </div>
+        <div class="hud-bar">
+          <div class="hud-label">
+            <span>DÜŞMAN CANI</span>
+            <span>%100</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill hp-bar" style="background: red;" id="enemy-hp-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode Display & Timer -->
+      <div style="margin-bottom: 15px;">
+        <div class="game-font" id="battle-hud-title" style="font-size: 14px; color: var(--accent); margin-bottom: 6px; text-align: center;">BOS SAVAŞI</div>
+        <div class="progress-bar-bg" style="height: 10px;">
+          <div class="progress-bar-fill timer-bar" id="timer-bar-fill"></div>
+        </div>
+      </div>
+
+      <!-- Fighter Arena Graphic -->
+      <div class="battle-arena">
+        <div class="battle-characters">
+          <div class="fighter-container" id="player-fighter">
+            <div class="fighter-visual" id="player-visual"></div>
+            <div class="fighter-name game-font" id="battle-player-name">SHELLY</div>
+          </div>
+          
+          <div style="font-size: 24px; font-weight: 900; color: #ff3b30; text-shadow: 1px 1px 0 #000;">VS</div>
+          
+          <div class="fighter-container enemy-container" id="enemy-fighter">
+            <div class="fighter-visual" id="enemy-visual"></div>
+            <div class="fighter-name game-font" id="battle-enemy-name">ROBO BOSS</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Panel -->
+      <div class="question-panel panel-glass">
+        <div class="question-text" id="question-text">8 x 7 = ?</div>
+      </div>
+
+      <!-- Answer Choice Grid -->
+      <div class="answer-grid">
+        <button class="btn-answer" onclick="Game.handleAnswer(0, event)">42</button>
+        <button class="btn-answer" onclick="Game.handleAnswer(1, event)">56</button>
+        <button class="btn-answer" onclick="Game.handleAnswer(2, event)">64</button>
+        <button class="btn-answer" onclick="Game.handleAnswer(3, event)">48</button>
+      </div>
+
+      <button class="btn-action game-font" onclick="Game.endMatch(false)" style="margin-top: 10px; font-size: 14px; padding: 10px; background: #6c757d; border-color: #212529; box-shadow: 0 4px 0 #343a40;">🏳️ KAÇ (TESLİM OL)</button>
+    </div>
+
+    <!-- --- SCREEN 3: Skin Store --- -->
+    <div class="screen shop-screen" id="shop-screen">
+      <div class="dashboard-header">
+        <h2 class="game-font" style="font-size: 20px;">SAVAŞÇI MAĞAZASI</h2>
+        <button class="btn-action game-font" onclick="Game.showScreen('home')" style="width: auto; padding: 8px 16px; font-size: 12px; box-shadow: 0 4px 0 #3c1e00;">GERİ</button>
+      </div>
+      <p style="font-size: 13px; color: #ccc; margin-bottom: 16px; text-align: center;">Mağazadan aldığın karakterler oyun temasını ve müziklerini değiştirir!</p>
+      
+      <div class="shop-grid" id="shop-grid">
+        <!-- Dynamically rendered by app.js -->
+      </div>
+    </div>
+
+    <!-- --- MODAL 4: Parent Panel & Settings --- -->
+    <div class="dashboard-modal" id="parent-modal">
+      <div class="dashboard-header">
+        <h2 class="game-font" style="font-size: 20px; color: var(--accent);">VELİ KONTROL PANELİ</h2>
+        <button class="btn-action game-font" onclick="document.getElementById('parent-modal').classList.remove('active');" style="width: auto; padding: 8px 16px; font-size: 12px; box-shadow: 0 4px 0 #3c1e00;">KAPAT</button>
+      </div>
+
+      <!-- Multiplication Table Toggle Selector -->
+      <div class="dashboard-section">
+        <h3 class="dashboard-subtitle game-font">Sorulacak Çarpım Tabloları</h3>
+        <p style="font-size: 12px; color: #aaa; margin-bottom: 10px;">Çocuğunuzun pratik yapmasını istediğiniz sayıları aktif edin.</p>
+        <div class="selector-list" id="selector-list">
+          <!-- Dynamically populated checkboxes -->
+        </div>
+      </div>
+
+      <!-- color-coded grid mapping learning statistics -->
+      <div class="dashboard-section">
+        <h3 class="dashboard-subtitle game-font">Öğrenme Analiz Haritası</h3>
+        <p style="font-size: 12px; color: #aaa; margin-bottom: 10px;">
+          Yeşil: Harika (Doğru ve Hızlı) | Turuncu: Geliştirilmeli | Kırmızı: Zorlanıyor
+        </p>
+        <div class="matrix-grid" id="matrix-grid">
+          <!-- 10x10 Matrix Map -->
+        </div>
+      </div>
+
+      <!-- Stats report -->
+      <div class="dashboard-section">
+        <h3 class="dashboard-subtitle game-font">Genel İstatistikler</h3>
+        <div class="stats-summary">
+          <div class="stat-box">
+            <div style="font-size: 12px; color: #aaa;">Toplam Doğruluk Oranı</div>
+            <div class="stat-value" id="stat-total-acc">%0</div>
+          </div>
+          <div class="stat-box">
+            <div style="font-size: 12px; color: #aaa;">Ortalama Cevap Süresi</div>
+            <div class="stat-value" id="stat-total-speed">0s</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- --- OVERLAY 5: Chest / Box Opener --- -->
+    <div class="chest-overlay" id="chest-overlay">
+      <h1 class="game-font" style="color: #ff9900; font-size: 28px; text-align: center; margin-bottom: 10px; text-shadow: 0 4px 6px #000;">YENİ KUTU BULUNDU!</h1>
+      
+      <!-- Tap Box animation -->
+      <div class="chest-animation-box" id="chest-animation-box">
+        <svg class="chest-svg shake-chest" id="chest-svg" viewBox="0 0 100 100">
+          <rect x="25" y="40" width="50" height="40" fill="#9e5a1b" stroke="#000" stroke-width="4" />
+          <rect x="25" y="30" width="50" height="10" fill="#cc7e33" stroke="#000" stroke-width="4" />
+          <!-- Locks and metal bands -->
+          <rect x="42" y="36" width="16" height="12" fill="#ffd700" stroke="#000" stroke-width="2" />
+          <circle cx="50" cy="42" r="2" fill="#000" />
+          <rect x="30" y="30" width="6" height="50" fill="#4a2503" opacity="0.3" />
+          <rect x="64" y="30" width="6" height="50" fill="#4a2503" opacity="0.3" />
+        </svg>
+      </div>
+      <div class="chest-tap-hint game-font" id="chest-tap-hint">AÇMAK İÇİN 3 KERE DOKUN!</div>
+
+      <!-- Spinner Reel (Hidden at first) -->
+      <div class="reward-spinner-container" id="reward-spinner-container">
+        <div class="spinner-pointer"></div>
+        <div class="reward-track" id="reward-track">
+          <!-- Filled by app.js -->
+        </div>
+      </div>
+
+      <!-- Item Reveal Screen -->
+      <div class="reward-reveal" id="reward-reveal">
+        <h2 class="reward-title game-font">YENİ ÖDÜL!</h2>
+        <div class="reward-item-card">
+          <div id="reward-icon-wrapper" style="width: 100px; height: 100px;"></div>
+          <div class="reward-name game-font" id="reward-item-name">ALTIN CROW</div>
+        </div>
+        <button class="btn-action game-font" onclick="Game.closeChestOverlay()" style="max-width: 180px;">ÖDÜLÜ AL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio synthesiser module first, then main game engine -->
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
